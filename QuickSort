@@ -3,7 +3,7 @@ public class PriceQuickSort
 	
 	public static void main(String[] args) 
 	{		
-		String[] testArray = {"1100","1500","2000","3000","900"};
+		String[] testArray = {"6000","1500","2000","3000","850"};
 	
 		quickSort(testArray, 0, testArray.length-1);
 		
@@ -19,9 +19,9 @@ public class PriceQuickSort
 	    	  int pivot = Integer.parseInt(tempArr[last]); 
 		      int i = initial - 1;  
 		    
-		      for (int j = initial; j <= last; j++)  
+		      for (int j = initial; j <= last - 1; j++)  
 		      {  	         
-		          if (Integer.parseInt(tempArr[j]) <= pivot)  
+		          if (Integer.parseInt(tempArr[j]) < pivot)  
 		          {  
 		              i++; 
 		              String temp = tempArr[i];  
@@ -39,7 +39,5 @@ public class PriceQuickSort
 	          quickSort(tempArr, partitionIndex + 1, last);  
 	      }  
 	}
-	
-	
 	
 }
