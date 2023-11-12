@@ -5,7 +5,7 @@ public class PriceQuickSort
 	{		
 		String[] testArray = {"1100","1500","2000","3000","900"};
 	
-		quickSort(testArray,0,testArray.length-1);
+		quickSort(testArray, 0, testArray.length-1);
 		
 		for (int i = 0; i < testArray.length; i++) 
 		    System.out.print(testArray[i] + " ");
