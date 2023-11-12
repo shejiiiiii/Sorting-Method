@@ -1,0 +1,45 @@
+public class PriceQuickSort
+{
+	
+	public static void main(String[] args) 
+	{		
+		String[] testArray = {"1100","1500","2000","3000","900"};
+	
+		quickSort(testArray,0,testArray.length-1);
+		
+		for (int i = 0; i < testArray.length; i++) 
+		    System.out.print(testArray[i] + " ");
+	
+	}
+	
+	public static void quickSort(String tempArr[], int initial, int last) 
+	{  
+	      if (initial < last)  
+	      {  
+	    	  int pivot = Integer.parseInt(tempArr[last]); 
+		      int i = initial - 1;  
+		    
+		      for (int j = initial; j <= last; j++)  
+		      {  	         
+		          if (Integer.parseInt(tempArr[j]) <= pivot)  
+		          {  
+		              i++; 
+		              String temp = tempArr[i];  
+		              tempArr[i] = tempArr[j];  
+		              tempArr[j] = temp;  
+		          }  
+		      }  
+		      String temp = tempArr[i+1];  
+		      tempArr[i+1] = tempArr[last];  
+		      tempArr[last] = temp;  
+		      
+		      int partitionIndex = i + 1;
+	    	  
+	          quickSort(tempArr, initial, partitionIndex - 1);  
+	          quickSort(tempArr, partitionIndex + 1, last);  
+	      }  
+	}
+	
+	
+	
+}
