@@ -1,0 +1,145 @@
+Line 222 
+priceInsertionSort(campus); ->  priceQuickSort(campus);
+
+Line 469 ( Replace and Add QUICK SORT Functions)
+//////////////////
+
+	public static void priceQuickSort(String campus) {
+			int x = campusChecker(campus);
+			String tempBHPrice[] = new String[hey.BHPrice[x].length];		
+			
+			
+			for(int i = 0; i < hey.BHPrice[x].length; i++)
+				tempBHPrice[i] = hey.BHPrice[x][i];
+			
+			for(int i=0; i < hey.arrnum; i++)
+				arrIndex[x][i] = i;
+			
+			quickSort(tempBHPrice, arrIndex[x], 0, hey.BHPrice[x].length-1, x);		
+			
+			for(int j = 0; j < hey.BHouses[x].length; j++) {
+				System.out.println((j+1) + ". " + hey.BHouses[x][arrIndex[x][j]] + ": " 
+						+ "\nTotal Occupants in a Room: " + hey.BHPeople[x][arrIndex[x][j]]
+						+ "\nPrice: " + tempBHPrice[j]
+						+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][j]]+ "\n");
+			}		
+		}
+
+///////////////////////////////////////////	
+
+	public static void quickSort(String tempArr[], int arrTempIndex[], int initial, int last, int x) 
+	{  	
+	      if (initial < last)  
+	      {  	    	  
+		  int pivot = Integer.parseInt(tempArr[last]); 
+		      int i = initial - 1;  
+				      
+		      for (int j = initial; j <= last - 1; j++)  
+		      {  	   
+			  if (Integer.parseInt(tempArr[j]) < pivot)  
+			  {  
+			      i++; 
+			      String temp = tempArr[i];  
+			      tempArr[i] = tempArr[j];  
+			      tempArr[j] = temp;  
+			      
+			      int tempNum = arrTempIndex[i];  
+			      arrTempIndex[i] = arrTempIndex[j];  
+			      arrTempIndex[j] = tempNum;
+			  }  
+		      }  
+		      String temp = tempArr[i+1];  
+		      tempArr[i+1] = tempArr[last];  
+		      tempArr[last] = temp;  
+		      
+		      int tempNum = arrTempIndex[i+1];  
+		      arrTempIndex[i+1] = arrTempIndex[last];  
+		      arrTempIndex[last] = tempNum;  
+		      
+		      int partitionIndex = i + 1;
+		  
+		      quickSort(tempArr, arrTempIndex, initial, partitionIndex - 1, x);  
+		      quickSort(tempArr, arrTempIndex, partitionIndex + 1, last, x);        
+	      }  			
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+Line 246 
+distanceMergeSort(campus); ->  distanceSelectionSort(campus);
+
+Line 528 ( Replace and Add MERGE SORT Functions)
+//////////////////
+
+	public static void distanceMergeSort(String campus) {
+		int x = campusChecker(campus);
+		int tempBHDistance[] = new int[hey.BHDistance[x].length];
+		
+		for(int i = 0; i < hey.BHDistance[x].length; i++) 
+			tempBHDistance[i] = Integer.parseInt(hey.BHDistance[x][i]);
+		
+		for(int i = 0; i < hey.arrnum; i++)
+			arrIndex[x][i] = i;
+		
+		mergeSort(tempBHDistance,arrIndex[x]);
+		
+		for (int j = 0; j < hey.BHouses[x].length; j++) {
+			System.out.print((j+1)+". "+ hey.BHouses[x][arrIndex[x][j]] + ": "
+					+ "\nTotal Occupants in a Room: "+ hey.BHPeople[x][arrIndex[x][j]]
+					+ "\nPrice: "+ hey.BHPrice[x][arrIndex[x][j]]
+					+ "\nDistance: "+ tempBHDistance[j]+ "\n\n");
+		}
+	}
+	
+	public static void mergeSort(int tempArr[], int arrTempIndex[]) {
+		if(tempArr.length > 1) {
+
+			int mid = tempArr.length / 2;
+			int leftHalf[] = new int[mid], 						leftHalfIndex [] = new int[mid];
+			int rightHalf[] = new int[tempArr.length - mid], 	rightHalfIndex[] = new int[tempArr.length - mid];
+			
+			for (int i = 0; i < mid; i++) {
+			    leftHalf[i] = tempArr[i];
+				leftHalfIndex[i] = arrTempIndex[i];
+			}
+			
+			for (int i = mid, j = 0; i < tempArr.length; i++, j++) {
+			    rightHalf[j] = tempArr[i];
+			    rightHalfIndex[j] = arrTempIndex[i];
+			}
+			mergeSort(leftHalf, leftHalfIndex);
+			mergeSort(rightHalf, rightHalfIndex);
+			
+			int i = 0, j = 0, k = 0;
+			while (i < leftHalf.length && j < rightHalf.length) {
+                if (leftHalf[i] < rightHalf[j]) {            
+                    tempArr[k] = leftHalf[i];
+                    arrTempIndex[k] = leftHalfIndex [i];
+                    
+                    i++;
+                } else {
+                    tempArr[k] = rightHalf[j];
+                    arrTempIndex[k] = rightHalfIndex [j];
+                    j++;
+                }
+                k++;
+            }
+            while (i < leftHalf.length) {
+                tempArr[k] = leftHalf[i];
+                arrTempIndex[k] = leftHalfIndex [i];
+                i++;
+                k++;
+            }
+
+            while (j < rightHalf.length) {
+                tempArr[k] = rightHalf[j];
+                arrTempIndex[k] = rightHalfIndex [j];
+                j++;
+                k++;
+            }
+			
+		}
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
