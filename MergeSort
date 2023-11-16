@@ -21,9 +21,6 @@ public class DistanceMergeSort
 			System.arraycopy(tempArr, 0, leftHalf, 0, mid);
 			System.arraycopy(tempArr, mid, rightHalf, 0, tempArr.length - mid);
 			
-			for(String i: tempArr)	System.out.print(i+" ");
-			System.out.println("\nassaasas");
-			
 			mergeSort(leftHalf);
 			mergeSort(rightHalf);
 			
