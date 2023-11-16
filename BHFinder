@@ -242,7 +242,7 @@ public class BHFinder {
 						usedFilter = true;
 					}
 					else if(rangeDistance==6) {
-						distanceSelectionSort(campus);
+						distanceMergeSort(campus);
 						wantMorePanel(campus);
 					}
 					filterPanel(campus);
@@ -524,39 +524,72 @@ public class BHFinder {
 			
 	}
 	
-	public static void distanceSelectionSort(String campus) {
+	public static void distanceMergeSort(String campus) {
 		int x = campusChecker(campus);
-		String tempBHDistance[] = new String[hey.BHDistance[x].length];
-		for(int i = 0; i < hey.BHDistance[x].length; i++) {
-			tempBHDistance[i] = hey.BHDistance[x][i];
-		}
+		int tempBHDistance[] = new int[hey.BHDistance[x].length];
+		
+		for(int i = 0; i < hey.BHDistance[x].length; i++) 
+			tempBHDistance[i] = Integer.parseInt(hey.BHDistance[x][i]);
 		
 		for(int i = 0; i < hey.arrnum; i++)
 			arrIndex[x][i] = i;
 		
+		mergeSort(tempBHDistance,arrIndex[x]);
 		
-		for(int i = 0; i < tempBHDistance.length-1; i++) {
-			for(int j = i+1; j <= tempBHDistance.length-1; j++) {
-				if(Integer.parseInt(tempBHDistance[i]) < Integer.parseInt(tempBHDistance[j])) {
-					continue;
-				} else {
-					String temp = tempBHDistance[i];
-					int tempNum = arrIndex[x][i];
-					tempBHDistance[i] = tempBHDistance[j];
-					arrIndex[x][i] = arrIndex[x][j];
-					tempBHDistance[j] = temp;
-					arrIndex[x][j] = tempNum;
-				}
-			}
+		for (int j = 0; j < hey.BHouses[x].length; j++) {
+			System.out.print((j+1)+". "+ hey.BHouses[x][arrIndex[x][j]] + ": "
+					+ "\nTotal Occupants in a Room: "+ hey.BHPeople[x][arrIndex[x][j]]
+					+ "\nPrice: "+ hey.BHPrice[x][arrIndex[x][j]]
+					+ "\nDistance: "+ tempBHDistance[j]+ "\n\n");
 		}
-			
-		
-		for(int j = 0; j < hey.BHouses[x].length; j++) {
-				System.out.println((j+1) + ". " + hey.BHouses[x][arrIndex[x][j]] + ": " 
-						+ "\nTotal Occupants in a Room: " + hey.BHPeople[x][arrIndex[x][j]]
-						+ "\nPrice: " + hey.BHPrice[x][arrIndex[x][j]]
-						+ "\nDistance: "+ tempBHDistance[j]+ "\n");
-		}	
-		
 	}
+	
+	public static void mergeSort(int tempArr[], int arrTempIndex[]) {
+		if(tempArr.length > 1) {
+
+			int mid = tempArr.length / 2;
+			int leftHalf[] = new int[mid], 						leftHalfIndex [] = new int[mid];
+			int rightHalf[] = new int[tempArr.length - mid], 	rightHalfIndex[] = new int[tempArr.length - mid];		
+			
+			System.arraycopy(tempArr, 0, leftHalf, 0, mid);
+			System.arraycopy(tempArr, mid, rightHalf, 0, tempArr.length - mid);
+			
+			System.arraycopy(arrTempIndex, 0, leftHalfIndex, 0, mid);
+			System.arraycopy(arrTempIndex, mid, rightHalfIndex, 0, tempArr.length - mid);
+			
+			mergeSort(leftHalf, leftHalfIndex);
+			mergeSort(rightHalf, rightHalfIndex);
+			
+			int i = 0, j = 0, k = 0;
+			while (i < leftHalf.length && j < rightHalf.length) {
+                if (leftHalf[i] < rightHalf[j]) {            
+                    tempArr[k] = leftHalf[i];
+                    arrTempIndex[k] = leftHalfIndex [i];
+                    
+                    i++;
+                } else {
+                    tempArr[k] = rightHalf[j];
+                    arrTempIndex[k] = rightHalfIndex [j];
+                    j++;
+                }
+                k++;
+            }
+            while (i < leftHalf.length) {
+                tempArr[k] = leftHalf[i];
+                arrTempIndex[k] = leftHalfIndex [i];
+                i++;
+                k++;
+            }
+
+            while (j < rightHalf.length) {
+                tempArr[k] = rightHalf[j];
+                arrTempIndex[k] = rightHalfIndex [j];
+                j++;
+                k++;
+            }
+			
+		}
+	}
+	
+	
 }
