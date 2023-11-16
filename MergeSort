@@ -1,0 +1,57 @@
+public class DistanceMergeSort
+{
+	
+	public static void main(String[] args) 
+	{		
+		String[] testArray = {"21","63645","1","321","0"};
+	
+		mergeSort(testArray);
+		
+		for(String i: testArray)
+			System.out.print(i+" ");
+	
+	}
+	
+	public static void mergeSort(String tempArr[]) {
+		if(tempArr.length > 1) {
+			int mid = tempArr.length / 2;
+			String leftHalf[] = new String[mid];
+			String rightHalf[] = new String[tempArr.length - mid];
+			
+			System.arraycopy(tempArr, 0, leftHalf, 0, mid);
+			System.arraycopy(tempArr, mid, rightHalf, 0, tempArr.length - mid);
+			
+			for(String i: tempArr)	System.out.print(i+" ");
+			System.out.println("\nassaasas");
+			
+			mergeSort(leftHalf);
+			mergeSort(rightHalf);
+			
+			int i = 0, j = 0, k = 0;
+			while (i < leftHalf.length && j < rightHalf.length) {
+                if (Integer.parseInt(leftHalf[i]) < Integer.parseInt(rightHalf[j])) {
+                    tempArr[k] = leftHalf[i];
+                    i++;
+                } else {
+                    tempArr[k] = rightHalf[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while (i < leftHalf.length) {
+                tempArr[k] = leftHalf[i];
+                i++;
+                k++;
+            }
+
+            while (j < rightHalf.length) {
+                tempArr[k] = rightHalf[j];
+                j++;
+                k++;
+            }
+			
+		}
+	}
+	
+}
