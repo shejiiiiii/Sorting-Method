@@ -1,0 +1,123 @@
+Line 196
+Added the option to search specific number of occupants to incorporate Binary Search
+
+
+case 1:                                                                                   // LINE 181
+			System.out.println("\n\nOccupants Range:\n"
+							+ "[1] 1-2\n" 
+							+ "[2] 3-4\n"
+							+ "[3] 5-6\n"
+							+ "[4] 7 or more\n"
+							+ "[5] Search Specific Value\n"                                             // LINE 187
+							+ "[6] Sort by Occupant\n"                                                  // LINE 188
+							+ "[0] Back");
+			System.out.print("\nPick an Occupants Range: ");
+				try {
+					rangeOccupants = Integer.parseInt(sc.nextLine());
+					if(rangeOccupants != 0 && rangeOccupants < 5) {
+						usedFilter = true;
+					}
+					else if(rangeOccupants == 5) {                                                  // LINE 196
+						System.out.print("\n\nInput number of occupants: ");
+						String search = sc.nextLine();
+						occupantsBinarySearch(campus, search, occupantsBubbleSort(campus));
+						wantMorePanel(campus);
+						break;
+					}
+					else if(rangeOccupants == 6) {
+						printBubbleSort(campusChecker(campus), occupantsBubbleSort(campus));
+						wantMorePanel(campus);
+						break;
+					}
+					filterPanel(campus);
+				}
+				catch(Exception e){
+					filterOptions(filter, campus);
+				}
+			break;
+   
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Line 438
+Binary Search Method
+
+public static void occupantsBinarySearch(String campus, String search, String[] tempBHPeople) {
+		int x = campusChecker(campus);
+		int low = 0;
+		int high = tempBHPeople.length - 1;
+		
+		while(low <= high) {
+			int mid = (low + high) / 2;
+			
+			if(search.equals(tempBHPeople[mid])) {
+				//return testArray[mid];
+				System.out.println("\n" + hey.BHouses[x][arrIndex[x][mid]] + ": " 
+						+ "\nTotal Occupants in a Room: " + tempBHPeople[mid]
+						+ "\nPrice: " + hey.BHPrice[x][arrIndex[x][mid]] 
+						+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][mid]] + "\n");
+				return;
+			}
+			else if(search.compareTo(tempBHPeople[mid]) < 0)
+				high = mid - 1;
+			else 
+				low = mid + 1;
+		}
+	
+		//return "DID NOT FIND SEARCH ENTRY.";
+	}
+
+ //////////////////////////////////////////////////////////////////////////////////////////
+
+ Line 463
+ Moved the print statement into a separate Print Method
+ Now returns a sorted String array
+
+ public static String[] occupantsBubbleSort(String campus) {
+		int x = campusChecker(campus);
+		String tempBHPeople[] = new String[hey.BHPeople[campusChecker(campus)].length];
+
+		for(int i = 0; i < hey.BHPeople[x].length; i++) {
+			tempBHPeople[i] = hey.BHPeople[x][i];
+		}
+		
+		for(int i = 0; i < hey.arrnum; i++) {
+			arrIndex[x][i] = i;
+		}
+		
+		boolean sorted = false;
+		while(!sorted) {
+			boolean swapped = false;
+			for(int i = 1; i < tempBHPeople.length; i++) {
+				if(Integer.parseInt(tempBHPeople[i]) < Integer.parseInt(tempBHPeople[i-1])) {
+					String temp = tempBHPeople[i-1];
+					int tempnum = arrIndex[x][i-1];
+					tempBHPeople[i-1] = tempBHPeople[i];
+					arrIndex[x][i-1] = arrIndex[x][i];
+					tempBHPeople[i] = temp;
+					arrIndex[x][i] = tempnum;
+					swapped = true;
+				}
+			}
+			if(!swapped) {
+				sorted = true;
+			}
+		}
+		
+		return tempBHPeople;
+	}
+
+ ///////////////////////////////////////////////////////////////////////////////////////
+
+ Line 497
+ The print method
+
+ public static void printBubbleSort(int x, String tempBHPeople[]) {
+		for(int k = 0; k < hey.BHouses[x].length; k++) {
+			System.out.println((k+1) + ". " + hey.BHouses[x][arrIndex[x][k]] + ": " 
+					+ "\nTotal Occupants in a Room: " + tempBHPeople[k]
+					+ "\nPrice: " + hey.BHPrice[x][arrIndex[x][k]] 
+					+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][k]] + "\n");
+		}
+	}
+
+ /////////////////////////////////////////////////////////////////////////////////////
