@@ -1,3 +1,5 @@
+package kunganolang;
+
 import java.util.*;
 
 public class BHFinder {
@@ -182,16 +184,24 @@ public class BHFinder {
 							+ "[2] 3-4\n"
 							+ "[3] 5-6\n"
 							+ "[4] 7 or more\n"
-							+ "[5] Sort by Occupant\n"
+							+ "[5] Search Specific Value\n"
+							+ "[6] Sort by Occupant\n"
 							+ "[0] Back");
 			System.out.print("\nPick an Occupants Range: ");
 				try {
 					rangeOccupants = Integer.parseInt(sc.nextLine());
-					if(rangeOccupants != 0 && rangeOccupants != 5) {
+					if(rangeOccupants != 0 && rangeOccupants < 5) {
 						usedFilter = true;
 					}
 					else if(rangeOccupants == 5) {
-						occupantsBubbleSort(campus);
+						System.out.print("\n\nInput number of occupants: ");
+						String search = sc.nextLine();
+						occupantsBinarySearch(campus, search, occupantsBubbleSort(campus));
+						wantMorePanel(campus);
+						break;
+					}
+					else if(rangeOccupants == 6) {
+						printBubbleSort(campusChecker(campus), occupantsBubbleSort(campus));
 						wantMorePanel(campus);
 						break;
 					}
@@ -425,9 +435,35 @@ public class BHFinder {
 		return i;
 	}
 	
-	public static void occupantsBubbleSort(String campus) {
+	public static void occupantsBinarySearch(String campus, String search, String[] tempBHPeople) {
 		int x = campusChecker(campus);
-		String tempBHPeople[] = new String[hey.BHPeople[x].length];
+		int low = 0;
+		int high = tempBHPeople.length - 1;
+		
+		while(low <= high) {
+			int mid = (low + high) / 2;
+			
+			if(search.equals(tempBHPeople[mid])) {
+				//return testArray[mid];
+				System.out.println("\n" + hey.BHouses[x][arrIndex[x][mid]] + ": " 
+						+ "\nTotal Occupants in a Room: " + tempBHPeople[mid]
+						+ "\nPrice: " + hey.BHPrice[x][arrIndex[x][mid]] 
+						+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][mid]] + "\n");
+				return;
+			}
+			else if(search.compareTo(tempBHPeople[mid]) < 0)
+				high = mid - 1;
+			else 
+				low = mid + 1;
+		}
+	
+		//return "DID NOT FIND SEARCH ENTRY.";
+	}
+	
+	public static String[] occupantsBubbleSort(String campus) {
+		int x = campusChecker(campus);
+		String tempBHPeople[] = new String[hey.BHPeople[campusChecker(campus)].length];
+
 		for(int i = 0; i < hey.BHPeople[x].length; i++) {
 			tempBHPeople[i] = hey.BHPeople[x][i];
 		}
@@ -455,13 +491,16 @@ public class BHFinder {
 			}
 		}
 		
+		return tempBHPeople;
+	}
+	
+	public static void printBubbleSort(int x, String tempBHPeople[]) {
 		for(int k = 0; k < hey.BHouses[x].length; k++) {
 			System.out.println((k+1) + ". " + hey.BHouses[x][arrIndex[x][k]] + ": " 
 					+ "\nTotal Occupants in a Room: " + tempBHPeople[k]
 					+ "\nPrice: " + hey.BHPrice[x][arrIndex[x][k]] 
 					+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][k]] + "\n");
 		}
-
 	}
 	
 	public static void priceQuickSort(String campus) {
@@ -483,7 +522,6 @@ public class BHFinder {
 					+ "\nPrice: " + tempBHPrice[j]
 					+ "\nDistance: "+ hey.BHDistance[x][arrIndex[x][j]]+ "\n");
 		}
-		
 		
 	}
 	
